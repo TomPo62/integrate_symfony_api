@@ -14,17 +14,24 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (loading) {
-      const fetchData = async () => {
-        try {
-          const resp = await axios.get('https://127.0.0.1:8000/api/tasks')
-          setTasks(resp.data['hydra:member'])
-          setLoading(!loading)
-        } catch (error) {
-          console.error('Error fetching data', error)
-        }
-      }
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('authToken')
 
+        const resp = await axios.get('https://127.0.0.1:8000/api/tasks', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        })
+
+        setTasks(resp.data['hydra:member'])
+        setLoading(false)
+      } catch (error) {
+        console.error('Error fetching data', error)
+      }
+    }
+
+    if (loading) {
       fetchData()
     }
   }, [loading])
