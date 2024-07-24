@@ -43,16 +43,16 @@ export default function Login() {
 
   return (
     <Layout>
-      <div className="flex flex-col min-h-screen w-full">
+      <div className="flex flex-col min-h-screen w-full items-center ">
         <h2 className="text-3xl font-bold text-blue-500">Login</h2>
-        <form onSubmit={handleSubmit} className="h-1/3 flex flex-col">
+        <form onSubmit={handleSubmit} className="h-max flex flex-col w-max justify-center items-center ">
           <div className="flex flex-col">
             <label>Email:</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="border-2 border-blue-500 rounded-lg w-1/3"
+              className="border-2 border-blue-500 rounded-lg"
             />
           </div>
           <div className="flex flex-col">
@@ -61,11 +61,11 @@ export default function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="border-2 border-blue-500 rounded-lg w-1/3"
+              className="border-2 border-blue-500 rounded-lg"
             />
           </div>
           <button
-            className="border-2 border-blue-500 w-1/3 rounded-lg mt-4"
+            className="border-2 border-blue-500 self-start rounded-lg mt-4 px-4 py-1"
             type="submit"
           >
             Login

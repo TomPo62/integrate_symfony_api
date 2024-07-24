@@ -18,14 +18,18 @@ export default function Home() {
       try {
         const token = localStorage.getItem('authToken')
 
-        const resp = await axios.get('https://127.0.0.1:8000/api/tasks', {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        })
+        if (token !== null) {
+          const resp = await axios.get('https://localhost:8000/api/tasks', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
 
-        setTasks(resp.data['hydra:member'])
-        setLoading(false)
+          console.log(resp)
+
+          setTasks(resp.data['hydra:member'])
+          setLoading(false)
+        }
       } catch (error) {
         console.error('Error fetching data', error)
       }
@@ -42,23 +46,29 @@ export default function Home() {
         Integrate Symfony API
       </h1>
       <div className="card">
-        {tasks.length > 0 ? (
-          <ul className="flex flex-col gap-2">
-            {tasks.map((task) => (
-              <li
-                className="flex text-xl text-gray p-4 border border-gray rounded-lg "
-                key={task.id}
-              >
-                <p className="font-bold flex">
-                  <span className="mr-2">{task.id}</span>
-                  {task.title}:
-                </p>
-                <p className="ml-2">{task.description}</p>
-              </li>
-            ))}
-          </ul>
+        {tasks.length <= 0 ? (
+          <div>No tasks found</div>
         ) : (
-          <Loader />
+          <>
+            {tasks.length > 0 ? (
+              <ul className="flex flex-col gap-2">
+                {tasks.map((task) => (
+                  <li
+                    className="flex text-xl text-gray p-4 border border-gray rounded-lg "
+                    key={task.id}
+                  >
+                    <p className="font-bold flex">
+                      <span className="mr-2">{task.id}</span>
+                      {task.title}:
+                    </p>
+                    <p className="ml-2">{task.description}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <Loader />
+            )}
+          </>
         )}
       </div>
     </Layout>

@@ -26,6 +26,7 @@ const config: Config = {
         'bg-light-3': 'var(--bg-light-3)',
         'bg-light-4': 'var(--bg-light-4)',
         'bg-light-5': 'var(--bg-light-5)',
+        
       },
     },
   },
