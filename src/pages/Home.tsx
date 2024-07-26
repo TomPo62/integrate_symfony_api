@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import Layout from './layout'
 import Loader from '../components/Loader'
+import { UserContext } from '../context/UserContext'
 
 interface Task {
   id: number
@@ -12,20 +13,24 @@ interface Task {
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [loading, setLoading] = useState(true)
+  const {user} = useContext(UserContext)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem('authToken')
 
-        if (token !== null) {
+
+        if (user) {
           const resp = await axios.get('https://localhost:8000/api/tasks', {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${user?.token}`,
             },
           })
 
-          console.log(resp)
+          if (resp.status === 401){
+
+            console.log('response unauthorized :',resp.status)
+          }
 
           setTasks(resp.data['hydra:member'])
           setLoading(false)
@@ -38,7 +43,7 @@ export default function Home() {
     if (loading) {
       fetchData()
     }
-  }, [loading])
+  }, [loading, user])
 
   return (
     <Layout>
